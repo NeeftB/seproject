@@ -12,6 +12,7 @@ public interface IUserService {
     boolean addUser(User user);
     boolean updateUser(User updatedUser);
     boolean userExists(String username);
+    boolean emailAlreadyInUse(String emailAddress);
     boolean addHolidayCountryToUser(String username, String countryName);
     boolean addReportToUser(String username, Report report);
     boolean deleteUser(String username);

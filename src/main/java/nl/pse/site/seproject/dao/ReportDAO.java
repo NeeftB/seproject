@@ -3,6 +3,7 @@ package nl.pse.site.seproject.dao;
 import nl.pse.site.seproject.dao.inter.IReportDAO;
 import nl.pse.site.seproject.model.Report;
 import nl.pse.site.seproject.rest.config.ApplicationConfig;
+import org.hibernate.Session;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;

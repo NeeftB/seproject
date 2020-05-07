@@ -20,4 +20,5 @@ public interface IUserDAO {
     boolean deleteUser(User user);
     boolean removeReportFromUser(User user, Report report);
     boolean removeHolidayFromUser(User user, Country country);
+    boolean emailAlreadyInUse(String emailAddress);
 }

@@ -69,6 +69,14 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
+    public boolean emailAlreadyInUse(String emailAddress) {
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.email = :email");
+        query.setParameter("email", emailAddress);
+
+        return query.getResultList().size() > 0;
+    }
+
+    @Override
     public boolean addHolidayToUser(User user, Country country) {
         user.addVisitedCountry(country);
         em.flush();

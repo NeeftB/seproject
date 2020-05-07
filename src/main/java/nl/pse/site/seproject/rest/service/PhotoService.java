@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -51,13 +52,21 @@ public class PhotoService implements IPhotoService {
     @Override
     public String storeImage(InputStream inputStream, String reportNumber, String fileName) {
         File file = createNewImageFile(reportNumber, fileName);
-                if (file != null) {
-                makeDirectory(file);
-                return handleImageSave(inputStream, file);
-            } else {
-                return null;
-            }
+        ArrayList<InputStream> inputStreams = copyInput(inputStream);
 
+        if (inputStreams.size() == 2) {
+            try {
+                if (file != null && getFileSize(inputStreams.get(1)) < 3) {
+                    makeDirectory(file);
+                    return handleImageSave(inputStreams.get(0), file);
+                } else {
+                    return null;
+                }
+            } catch (IOException e) {
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -83,7 +92,7 @@ public class PhotoService implements IPhotoService {
 
     @Override
     public boolean deletePhoto(int photoId, String reportNumber) {
-        if (getNumberOfPhoto(reportNumber) != 1 && photoDAO.photoExist(photoId)) {
+        if (getNumberOfPhoto(reportNumber) > 1  && photoDAO.photoExist(photoId)) {
             return photoDAO.deletePhoto(getPhotoById(photoId));
         } else {
             return false;
@@ -95,7 +104,6 @@ public class PhotoService implements IPhotoService {
         deleteAllImagesInDirectory(reportNumber);
         File file = createNewImageFile(reportNumber, fileName);
         return handleImageSave(inputStream, file);
-
     }
 
 
@@ -112,7 +120,7 @@ public class PhotoService implements IPhotoService {
         }
     }
 
-    private String handleImageSave(InputStream inputStream, File file) {
+    public String handleImageSave(InputStream inputStream, File file) {
         try (OutputStream outputStream = new FileOutputStream(file)) {
             IOUtils.copy(inputStream, outputStream);
             return file.getPath();
@@ -131,12 +139,28 @@ public class PhotoService implements IPhotoService {
                 d.delete();
     }
 
-    private void makeDirectory(File file) {
+    public void makeDirectory(File file) {
         file.getParentFile().mkdirs();
     }
 
     private String getFilePath(String reportNumber) {
         return getPhotoByReport(reportNumber).getPath();
+    }
+
+    private ArrayList<InputStream> copyInput(InputStream inputStream) {
+        ArrayList<InputStream> list = new ArrayList<>();
+        byte[] byteArray = new byte[2048];
+        try {
+            byteArray = IOUtils.toByteArray(inputStream);
+        } catch (IOException e) {
+        }
+        InputStream input1 = new ByteArrayInputStream(byteArray);
+        InputStream input2 = new ByteArrayInputStream(byteArray);
+
+        list.add(input1);
+        list.add(input2);
+
+        return list;
     }
 
     public long getFileSize(InputStream inputStream) throws IOException {
@@ -145,13 +169,11 @@ public class PhotoService implements IPhotoService {
 
         try (OutputStream outputStream = new FileOutputStream(tmpFile)) {
             IOUtils.copy(inputStream, outputStream);
-        } catch (FileNotFoundException e) {
-            return 0; //Some other actions must be implemented
         } catch (IOException e) {
             return 0; //Some other actions must be implemented
         }
 
-        sizeOfFile = tmpFile.length() / (1024 * 1024);
+        sizeOfFile = tmpFile.length() / (1024 * 1024); //size in MB's
         tmpFile.delete();
         return sizeOfFile;
     }

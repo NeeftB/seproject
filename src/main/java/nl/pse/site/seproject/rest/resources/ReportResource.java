@@ -1,6 +1,5 @@
 package nl.pse.site.seproject.rest.resources;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import nl.pse.site.seproject.model.Photo;
 import nl.pse.site.seproject.model.Report;
 import nl.pse.site.seproject.rest.model.ClientApproval;
@@ -9,9 +8,6 @@ import nl.pse.site.seproject.rest.service.inter.IPhotoService;
 import nl.pse.site.seproject.rest.service.inter.IReportService;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.json.JSONObject;
-
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

@@ -2,12 +2,10 @@ package nl.pse.site.seproject.rest.service;
 
 
 import nl.pse.site.seproject.dao.inter.IUserDAO;
-import nl.pse.site.seproject.model.Photo;
 import nl.pse.site.seproject.model.Report;
 import nl.pse.site.seproject.model.User;
 import nl.pse.site.seproject.rest.config.ApplicationConfig;
 import nl.pse.site.seproject.rest.service.inter.ICountryService;
-import nl.pse.site.seproject.rest.service.inter.IPhotoService;
 import nl.pse.site.seproject.rest.service.inter.IReportService;
 import nl.pse.site.seproject.rest.service.inter.IUserService;
 
@@ -52,6 +50,8 @@ public class UserService implements IUserService {
     public boolean addUser(User user) {
         if(userExists(user.getUsername())){
             return false;
+        } else if(emailAlreadyInUse(user.getEmail())) {
+            return false;
         } else {
             userDAO.addUser(user);
             return true;
@@ -71,6 +71,11 @@ public class UserService implements IUserService {
     @Override
     public boolean userExists(String username) {
         return userDAO.userExists(username);
+    }
+
+    @Override
+    public boolean emailAlreadyInUse(String emailAddress) {
+        return userDAO.emailAlreadyInUse(emailAddress);
     }
 
     @Override

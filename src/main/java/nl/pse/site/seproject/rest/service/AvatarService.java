@@ -4,6 +4,7 @@ import nl.pse.site.seproject.dao.inter.IAvatarDAO;
 import nl.pse.site.seproject.model.Avatar;
 import nl.pse.site.seproject.rest.config.ApplicationConfig;
 import nl.pse.site.seproject.rest.service.inter.IAvatarService;
+import nl.pse.site.seproject.rest.service.inter.IPhotoService;
 import nl.pse.site.seproject.rest.service.inter.IUserService;
 
 import javax.inject.Inject;
@@ -37,7 +38,6 @@ public class AvatarService implements IAvatarService {
         } else{
             return false;
         }
-
     }
 
     @Override
