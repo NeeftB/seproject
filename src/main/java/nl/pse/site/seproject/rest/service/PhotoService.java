@@ -12,7 +12,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Transactional
