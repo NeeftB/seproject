@@ -52,9 +52,7 @@ public class TestUserService {
         when(userDAO.emailAlreadyInUse(anyString())).thenReturn(false);
         when(userDAO.addUser(user)).thenReturn(true);
 
-//        assertTrue(userService.addUser(user));
-        fail();
-
+        assertTrue(userService.addUser(user));
     }
 
 }
