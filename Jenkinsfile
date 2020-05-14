@@ -17,6 +17,9 @@ pipeline {
                 success {
                     junit 'target/surefire-reports/**/*.xml' 
                 }
+                failure {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
             }
         }
 //        stage ('SonarQube Analysis') {
