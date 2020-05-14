@@ -24,12 +24,12 @@ pipeline {
                 }
             }
         }
-        stage ('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv(installationName: 'sonarqube') {
-                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
-                }
-            }
-        }
+//        stage ('SonarQube Analysis') {
+//            steps {
+//                withSonarQubeEnv(installationName: 'sonarqube') {
+//                    sh 'mvn clean package sonar:sonar'
+//                }
+//            }
+//        }
     }
 }
