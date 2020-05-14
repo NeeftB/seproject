@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'maven-3'
+        sonar 'sonar-scanner'
     }
     stages {
         stage('SCM Checkout') {
@@ -27,7 +28,7 @@ pipeline {
         stage ('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv() {
-                    sh 'mvn sonar:sonar -Dsonar.login=799d5d232114348d5aeff09e44747d5810c8b75b'
+                    sh 'mvn clean package sonar:sonar'
                 }
             }
         }
