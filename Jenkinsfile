@@ -27,7 +27,7 @@ pipeline {
         stage ('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh 'mvn clean package sonar:sonar'
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=seproject-jenkins -Dsonar.host.url=http://localhost:9000 -Dsonar.login=799d5d232114348d5aeff09e44747d5810c8b75b'
                 }
             }
         }
