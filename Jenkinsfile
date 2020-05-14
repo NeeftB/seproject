@@ -5,7 +5,9 @@ pipeline {
     }
     stages {
         stage('SCM Checkout') {
-          git 'https://github.com/neeftb/seproject'
+            steps {
+                git 'https://github.com/neeftb/seproject'
+            }
         }
         stage ('Build') {
             steps {
