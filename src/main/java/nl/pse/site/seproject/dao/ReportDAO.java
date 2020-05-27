@@ -1,6 +1,7 @@
 package nl.pse.site.seproject.dao;
 
 import nl.pse.site.seproject.dao.inter.IReportDAO;
+import nl.pse.site.seproject.model.Photo;
 import nl.pse.site.seproject.model.Report;
 import nl.pse.site.seproject.rest.config.ApplicationConfig;
 import org.hibernate.Session;
@@ -28,6 +29,19 @@ public class ReportDAO implements IReportDAO {
     private EntityManager em;
 
     @Override
+    public List<Report> getAllReports() {
+        return null;
+    }
+
+    @Override
+    public List<Report> getAllPublishedReports() {
+        TypedQuery<Report> query = em.createQuery("SELECT r FROM Report r LEFT JOIN FETCH r.user u WHERE r.published = :true", Report.class);
+        query.setParameter("true", true);
+
+        return query.getResultList();
+    }
+
+    @Override
     public List<Report> getTopTenReports() {
         //Hier moeten we de ORDER BY nog op de juiste manier gebruiken. Dit moment even de views gepakt.
         TypedQuery<Report> query = em.createQuery(NEW_REPORT + "ORDER BY r.views DESC", Report.class);
@@ -37,7 +51,7 @@ public class ReportDAO implements IReportDAO {
 
     @Override
     public List<Report> getReportsOfUser(String username) {
-        TypedQuery<Report> query = em.createQuery(NEW_REPORT + "WHERE r.user.username = :username"
+        TypedQuery<Report> query = em.createQuery(NEW_REPORT + " LEFT JOIN r.user u WHERE u.username = :username"
                 , Report.class);
         query.setParameter("username", username);
         return query.getResultList();
@@ -46,7 +60,10 @@ public class ReportDAO implements IReportDAO {
     @Override
     public Report getReportByReportNumber(String reportNumber) {
         //Misschien hier een andere select van maken. Dan miss wel kunnen updaten
-        TypedQuery<Report> query = em.createQuery(NEW_REPORT + "WHERE r.reportNumber = :reportNumber",
+//        TypedQuery<Report> query = em.createQuery(NEW_REPORT + " LEFT JOIN r.user u WHERE r.reportNumber = :reportNumber",
+//                Report.class);
+        TypedQuery<Report> query = em.createQuery("SELECT r FROM Report r LEFT JOIN FETCH r.photos p " +
+                        "LEFT JOIN r.user u WHERE r.reportNumber = :reportNumber",
                 Report.class);
         query.setParameter("reportNumber", reportNumber);
         return query.getSingleResult();
@@ -60,6 +77,12 @@ public class ReportDAO implements IReportDAO {
 
     @Override
     public boolean deleteReport(Report report) {
+        Set<Photo> photos = report.getPhotos();
+
+        for(Photo p: photos){
+            report.deletePhoto(p);
+        }
+
         em.remove(report);
         return true;
     }
@@ -119,7 +142,8 @@ public class ReportDAO implements IReportDAO {
         report.setParagraphTwo(updatedReport.getParagraphTwo());
         report.setParagraphThree(updatedReport.getParagraphThree());
         report.setPublished(updatedReport.getPublished());
-        em.flush();
+//        em.clear();
+        em.merge(report);
 
         return true;
     }

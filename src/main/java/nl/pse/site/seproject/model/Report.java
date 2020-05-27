@@ -58,6 +58,7 @@ public class Report {
     private Date timestamp;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonbTransient
     private Set<Photo> photos = new HashSet<>();
 
     @JsonbTransient
@@ -222,6 +223,11 @@ public class Report {
     public void addPhoto(Photo photo) {
         getPhotos().add(photo);
         photo.setReport(this);
+    }
+
+    public void deletePhoto(Photo photo) {
+        getPhotos().remove(photo);
+        photo.setReport(null);
     }
 
     @Override

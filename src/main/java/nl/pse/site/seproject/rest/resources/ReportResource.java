@@ -31,10 +31,17 @@ public class ReportResource {
     }
 
     @GET
-    @Path("getallreports")
+    @Path("allreports")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllReports(){
         return Response.status(Response.Status.OK).entity(reportService.getAllReports()).build();
+    }
+
+    @GET
+    @Path("allpublishedreports")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPublishedReports(){
+        return Response.status(Response.Status.OK).entity(reportService.getAllPublishedReports()).build();
     }
 
     @GET
@@ -115,6 +122,16 @@ public class ReportResource {
             return Response.status(Response.Status.OK).entity(new ClientApproval("Report is published")).build();
         } else {
             return Response.status(Response.Status.OK).entity(new ClientApproval("Report couldn't be published")).build();
+        }
+    }
+
+    @DELETE
+    @Path("{reportNumber}")
+    public Response deleteReport(@PathParam("reportNumber") String reportNumber) {
+        if(reportService.deleteReport(reportNumber) && photoService.deleteAllImagesOfReport(reportNumber)){
+            return Response.status(Response.Status.OK).entity(new ClientApproval("Report is deleted")).build();
+        } else {
+            return Response.status(Response.Status.OK).entity(new ClientApproval("Report couldn't be deleted")).build();
         }
     }
 }

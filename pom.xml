@@ -24,7 +24,6 @@
         <sonar.tests>src/test</sonar.tests>
     </properties>
 
-
     <dependencies>
         <!--Java EE 8 start-->
         <dependency>
@@ -143,6 +142,7 @@
             <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
+
         <!-- Test dependency end-->
 
         <dependency>
@@ -214,27 +214,6 @@
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.5</version>
-                    <executions>
-                        <execution>
-                            <id>coverage-initialize</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>coverage-report</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

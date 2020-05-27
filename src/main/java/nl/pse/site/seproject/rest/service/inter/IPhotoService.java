@@ -17,4 +17,5 @@ public interface IPhotoService {
     Photo getPhotoById(int photoId);
     boolean deletePhoto(int photoId, String reportNumber);
     String updateImage(InputStream inputStream, String reportNumber, String fileName);
+    boolean deleteAllImagesOfReport(String reportNumber);
 }

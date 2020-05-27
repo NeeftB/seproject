@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IReportDAO {
 
+    List<Report> getAllReports();
+    List<Report> getAllPublishedReports();
     List<Report> getTopTenReports();
     List<Report> getReportsOfUser(String username);
     Report getReportByReportNumber(String reportNumber);

@@ -1,5 +1,6 @@
 package nl.pse.site.seproject.rest.service;
 
+import nl.pse.site.seproject.dao.inter.IPhotoDAO;
 import nl.pse.site.seproject.dao.inter.IReportDAO;
 import nl.pse.site.seproject.model.Photo;
 import nl.pse.site.seproject.model.Report;
@@ -14,6 +15,7 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Named(ApplicationConfig.REPORT_SERVICE_NAME)
@@ -32,6 +34,17 @@ public class ReportService implements IReportService {
     @Override
     public List<Report> getAllReports() {
         return null;
+    }
+
+    @Override
+    public List<Report> getAllPublishedReports() {
+        List<Report> reports = reportDAO.getAllPublishedReports();
+
+        for(Report r: reports){
+            System.out.println(r.getUser().getUsername());
+        }
+
+        return reportDAO.getAllPublishedReports();
     }
 
     @Override
@@ -68,6 +81,11 @@ public class ReportService implements IReportService {
             return reportDAO.updateReport(getReportByReportNumber(reportNumber), updatedReport);
         }
         return false;
+    }
+
+    @Override
+    public boolean deleteReport(String reportNumber) {
+        return reportDAO.deleteReport(getReportByReportNumber(reportNumber));
     }
 
     public boolean updateRanking(int newRate) {

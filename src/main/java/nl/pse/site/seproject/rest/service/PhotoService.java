@@ -5,6 +5,7 @@ import nl.pse.site.seproject.model.Photo;
 import nl.pse.site.seproject.rest.config.ApplicationConfig;
 import nl.pse.site.seproject.rest.service.inter.IPhotoService;
 import nl.pse.site.seproject.rest.service.inter.IReportService;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
@@ -103,6 +104,19 @@ public class PhotoService implements IPhotoService {
         deleteAllImagesInDirectory(reportNumber);
         File file = createNewImageFile(reportNumber, fileName);
         return handleImageSave(inputStream, file);
+    }
+
+    @Override
+    public boolean deleteAllImagesOfReport(String reportNumber) {
+        File directory = new File(PATHNAME +
+                reportNumber);
+        try {
+            FileUtils.deleteDirectory(directory);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
