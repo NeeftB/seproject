@@ -10,8 +10,6 @@ import javax.ejb.Stateless;
 @DataSourceDefinition(
         name = "java:app/env/jdbc/SEProjectDB",
         className = "com.mysql.cj.jdbc.MysqlXADataSource",
-
-//        url = "jdbc:mysql://localhost:3306/truthortravel?createDatabaseIfNotExist=true&serverTimezone=CET",
         url = "jdbc:mysql://localhost:3306/projectse?createDatabaseIfNotExist=true&serverTimezone=CET&useSSL=false&allowPublicKeyRetrieval=true",
         user = "root",
         password = "Dr!ger13"

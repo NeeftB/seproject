@@ -50,6 +50,7 @@ public class CountryResource {
     }
 
     @PUT
+    @Path("/{countryName}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCountry(Country updatedCountry){
         return Response.status(Response.Status.OK).entity(countryService.updateCountry(updatedCountry)).build();

@@ -24,7 +24,7 @@ public class PhotoResource {
     }
 
     @GET
-    @Path("/getphotos/{reportnumber}")
+    @Path("{reportnumber}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getPhotosFromReport(@PathParam("reportnumber") String reportNumber) {
         return Response.status(Response.Status.OK).entity(photoService.getImage(reportNumber))

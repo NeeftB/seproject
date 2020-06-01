@@ -124,6 +124,8 @@ public class PhotoService implements IPhotoService {
         return photoDAO.getNumberOfPhoto(reportNumber);
     }
 
+
+
     public File createNewImageFile(String reportNumber, String fileName) {
         try {
             return new File(PATHNAME +

@@ -25,20 +25,6 @@ public class PhotoServiceSteps {
     InputStream is = mock(InputStream.class);
     FormDataBodyPart fd = mock(FormDataBodyPart.class);
 
-    @Given("that user Tino want to delete a photo.")
-    public void that_user_Tino_has_pushed_the_delete_button_to_delete_the_photo() {
-        photoService.deletePhoto(anyInt(), anyString());
-    }
-
-    @When("Tino only has got one photo in his blog and the frontend did not checked this correctly")
-    public void tino_only_has_got_one_photo_in_his_blog_and_the_frontend_did_not_checked_this_correctly() {
-        given(photoDAO.getNumberOfPhoto(anyString())).willReturn(1);
-    }
-
-    @Then("the backend system must denied the delete action")
-    public void the_system_must_denied_the_action() {
-        assertFalse(photoService.deletePhoto(anyInt(), anyString()));
-    }
 
     @Given("that user Maria uploaded a new photo for her blog.")
     public void that_user_Maria_uploaded_a_new_photo_for_her_blog() throws Exception {
@@ -54,5 +40,21 @@ public class PhotoServiceSteps {
     public void the_backend_system_must_denied_the_action() throws IOException {
         given(photoService.getFileSize(is)).willReturn((long) 4);
         assertEquals( null, photoService.storeImage(eq(is), anyString(), anyString()));
+    }
+
+
+    @Given("that user Tino want to delete a photo.")
+    public void that_user_Tino_has_pushed_the_delete_button_to_delete_the_photo() {
+        photoService.deletePhoto(anyInt(), anyString());
+    }
+
+    @When("Tino only has got one photo in his blog and the frontend did not checked this correctly")
+    public void tino_only_has_got_one_photo_in_his_blog_and_the_frontend_did_not_checked_this_correctly() {
+        given(photoDAO.getNumberOfPhoto(anyString())).willReturn(1);
+    }
+
+    @Then("the backend system must denied the delete action")
+    public void the_system_must_denied_the_action() {
+        assertFalse(photoService.deletePhoto(anyInt(), anyString()));
     }
 }

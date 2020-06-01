@@ -142,8 +142,8 @@ public class ReportDAO implements IReportDAO {
         report.setParagraphTwo(updatedReport.getParagraphTwo());
         report.setParagraphThree(updatedReport.getParagraphThree());
         report.setPublished(updatedReport.getPublished());
-//        em.clear();
         em.merge(report);
+        em.flush();
 
         return true;
     }

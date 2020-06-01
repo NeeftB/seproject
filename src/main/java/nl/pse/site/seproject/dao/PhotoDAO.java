@@ -70,7 +70,6 @@ public class PhotoDAO implements IPhotoDAO {
 
     @Override
     public int getNumberOfPhoto(String reportNumber) {
-
         Query query = em.createQuery("SELECT p from Photo p LEFT JOIN FETCH p.report r " +
                         "WHERE r.reportNumber = : reportNumber ",
                 Photo.class);

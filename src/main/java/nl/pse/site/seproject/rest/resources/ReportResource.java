@@ -38,7 +38,7 @@ public class ReportResource {
     }
 
     @GET
-    @Path("allpublishedreports")
+    @Path("published")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPublishedReports(){
         return Response.status(Response.Status.OK).entity(reportService.getAllPublishedReports()).build();
@@ -56,13 +56,6 @@ public class ReportResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReportsOfUser(@PathParam("username") String username) {
         return Response.status(Response.Status.OK).entity(reportService.getReportsOfUser(username)).build();
-    }
-
-    @PUT
-    @Path("/addreport/{username}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addReport(@PathParam("username") String username, Report report){
-        return Response.status(Response.Status.OK).entity(reportService.addReport(username, report)).build();
     }
 
     @PUT
@@ -116,7 +109,7 @@ public class ReportResource {
     }
 
     @PUT
-    @Path("publishreport/{reportNumber}")
+    @Path("{reportNumber}/publish")
     public Response publishReport(@PathParam("reportNumber") String reportNumber) {
         if(reportService.publishReport(reportNumber)){
             return Response.status(Response.Status.OK).entity(new ClientApproval("Report is published")).build();
